@@ -1,0 +1,34 @@
+name: CD Front-end
+
+on:
+  #schedule:
+  #  - cron: '0 23 * * *'
+  workflow_dispatch:
+
+jobs:
+
+  ci:
+    name: CI Workflow Main
+    uses: ./.github/workflows/ci-frontend-main.yml
+    
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    name: Deploy Railway
+    steps:
+      #- uses: actions/checkout@v3
+      - name: Restaurar cache
+        uses: actions/cache@v3
+        with:
+          path: front-end/dist/
+          key: build-${{github.sha}}       
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Instalação do cliente Railway
+        run: npm install -g @railway/cli
+      - name: Deploy
+        working-directory: front-end/dist/sgcmapp
+        run: railway up --detach --service sgcmapp
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

@@ -1,0 +1,29 @@
+name: CD Back-end
+
+on:
+  #schedule:
+  #  - cron: '0 23 * * *'
+  workflow_dispatch:
+
+jobs:
+
+  ci:
+    name: CI Workflow Main
+    uses: ./.github/workflows/ci-backend-main.yml
+    
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    name: Deploy Railway
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Instalação do cliente Railway
+        run: npm install -g @railway/cli
+      - name: Deploy
+        working-directory: back-end/
+        run: railway up --detach --service sgcm
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

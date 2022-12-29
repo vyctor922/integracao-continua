@@ -1,0 +1,12 @@
+<form (ngSubmit)="submit(form)" #form="ngForm">
+    <div class="grid">
+
+        <label for="nomeUsuario">Usuário</label>
+        <input type="text" name="nomeUsuario" [(ngModel)]="usuario.nomeUsuario" required>
+
+        <label for="senha">Senha</label>
+        <input type="password" name="senha" [(ngModel)]="usuario.senha" required>
+
+    </div>
+    <input type="submit" value="Login" [disabled]="form.invalid">
+</form>

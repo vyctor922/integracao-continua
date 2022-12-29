@@ -1,0 +1,49 @@
+name: CI Front-end
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'front-end/**'
+  pull_request:
+    paths:
+      - 'front-end/**'
+  workflow_call:
+  workflow_dispatch:
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Instalação de dependências
+        working-directory: front-end/
+        run: npm install
+      - name: Test
+        working-directory: front-end/
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Instalação de dependências
+        working-directory: front-end/
+        run: npm install
+      - name: build
+        working-directory: front-end/
+        run: npm run build --prod
+      - name: Cache App
+        uses: actions/cache@v3
+        with:
+          path: front-end/dist/
+          key: build-${{github.sha}}

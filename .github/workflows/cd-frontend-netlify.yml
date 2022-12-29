@@ -1,0 +1,33 @@
+name: CD Front-end (Netlify)
+
+on:
+  schedule:
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+
+jobs:
+
+  ci:
+    name: CI Workflow Main
+    uses: ./.github/workflows/ci-frontend-main.yml
+    
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    name: Deploy Netlify
+    steps:
+      - uses: actions/checkout@v3
+      - name: Restaurar cache
+        uses: actions/cache@v3
+        with:
+          path: front-end/dist/
+          key: build-${{github.sha}}      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Copia do arquivo netlify.toml
+        run: cp front-end/netlify.toml front-end/dist/sgcmapp/
+      - name: Instalação do cliente Netlify
+        run: npm install -g netlify-cli
+      - name: Deploy
+        run: netlify deploy --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} --dir=front-end/dist/sgcmapp --site=${{ secrets.NETLIFY_SITE_ID }} --prod

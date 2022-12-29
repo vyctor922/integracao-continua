@@ -1,0 +1,49 @@
+<header>
+  <div id="logo">
+      <img src="/assets/imagens/logo.png" alt="Logo SGCM">
+      <span id="titulo">SGCM</span>
+  </div>
+  <div id="usuarioInfo" [hidden]="!isAutenticado()">
+      <span>
+            Usuário: {{ getUsuario().nomeCompleto }} ({{ getUsuario().nomeUsuario }})
+      </span>
+      <span>Papel: {{ getUsuario().papel }}</span>
+      <select id="tema">
+          <option value="">Escolha um tema</option>
+          <option value="azul">Azul</option>
+          <option value="verde">Verde</option>
+      </select>
+      <a (click)="logout()" class="botao">Logout</a>
+  </div>
+</header>
+
+<nav *ngIf="isAutenticado()">
+  <ul>
+      <li><a routerLink="/agenda">Agenda</a></li>
+      <li><a routerLink="/atendimento">Atendimento</a></li>
+      <li><a routerLink="/pacientes">Pacientes</a></li>
+      <li><a routerLink="/profissionais">Profissionais</a></li>
+      <li><a routerLink="/convenios">Convênios</a></li>
+      <li id="dropdown" *ngIf="isAdmin()">
+          <a href="javascript:void(0)">
+              Configurações
+              <span>&#9660;</span>
+          </a>
+          <div id="dropdown_menu">
+              <a routerLink="/config/unidades">Unidades</a>
+              <a routerLink="/config/especialidades">Especialidades</a>
+              <a routerLink="/config/usuarios">Usuários</a>
+          </div>
+      </li>
+  </ul>
+</nav>
+
+<main>
+    <app-alerta></app-alerta>
+    <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <span>SGCM - Sistema de Gerenciamento de Clínica Médica</span>
+  <span>Suporte Técnico: (68) 5555-5555 | <a href="mailto:suporte.sgcm@ufac.br">suporte.sgcm@ufac.br</a></span>
+</footer>

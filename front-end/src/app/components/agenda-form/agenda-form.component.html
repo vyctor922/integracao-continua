@@ -1,0 +1,78 @@
+<form (ngSubmit)="submit(form)" #form="ngForm">
+    <div class="grid">
+
+        <input type="hidden" name="id" [(ngModel)]="registro.id">
+
+        <label for="profissional">Profissional</label>
+        <select
+                name="profissional"
+                [(ngModel)]="registro.profissional"
+                [compareWith]="compareById"
+                (change)="verificaHorario()"
+                required>
+            <option [ngValue]="null">Selecione</option>
+            <option
+                    *ngFor="let item of profissionais"
+                    [ngValue]="item">
+                {{item.nome}}
+            </option>
+        </select>
+
+        <label for="data">Data</label>
+        <input
+            type="date"
+            name="data"
+            [(ngModel)]="registro.data"
+            (change)="verificaHorario()"
+            required>
+        
+        <label for="hora">Hora</label>
+        <select
+                name="hora"
+                [(ngModel)]="registro.hora"
+                required>
+            <option [ngValue]="null">Selecione</option>
+            <option value="14:00:00">14:00</option>
+            <option value="14:30:00">14:30</option>
+            <option value="15:00:00">15:00</option>
+            <option value="15:30:00">15:30</option>
+            <option value="16:00:00">16:00</option>
+            <option value="16:30:00">16:30</option>
+            <option value="17:00:00">17:00</option>
+            <option value="17:30:00">17:30</option>
+            <option value="18:00:00">18:00</option>
+            <option value="18:30:00">18:30</option>
+            <option value="19:00:00">19:00</option>
+            <option value="19:30:00">19:30</option>
+            <option value="20:00:00">20:00</option>
+        </select>
+
+        <label for="convenio">Convênio</label>
+        <select
+                name="convenio"
+                [(ngModel)]="registro.convenio"
+                [compareWith]="compareById">
+            <option [ngValue]="null">Selecione</option>
+            <option
+                    *ngFor="let item of convenios"
+                    [ngValue]="item">
+                {{item.nome}}
+            </option>
+        </select>
+
+        <label for="paciente">Paciente</label>
+        <select name="paciente"
+                [(ngModel)]="registro.paciente"
+                [compareWith]="compareById"
+                required>
+            <option [ngValue]="null">Selecione</option>
+            <option
+                    *ngFor="let item of pacientes"
+                    [ngValue]="item">
+                {{item.nome}}
+            </option>
+        </select>
+    </div>
+    <input type="button" value="Cancelar" routerLink="../">
+    <input type="submit" value="Salvar" [disabled]="form.invalid">
+</form>
