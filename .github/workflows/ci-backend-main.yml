@@ -34,6 +34,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'zulu'
+          cache: 'maven'
       - name: Package
         working-directory: back-end/
         run: mvn --activate-profiles prod -DskipTests package

@@ -20,8 +20,8 @@ public class FiltroCors {
             Arrays.asList(
                 "http://127.0.0.1:5500",
                 "https://localhost:4200",
-                "https://sgcmapp.up.railway.app",
-                "https://sgcmapp.netlify.app")
+                "https://sgcm-vyctor922.up.railway.app",
+                "https://sgcm-vyctor922.netlify.app")
         );
         corsConfig.setAllowedMethods(Arrays.asList("*"));
         corsConfig.setAllowedHeaders(Arrays.asList("*"));

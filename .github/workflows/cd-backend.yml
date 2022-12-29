@@ -20,10 +20,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Instalação do cliente Railway
+      - name: Install - client Railway
         run: npm install -g @railway/cli
       - name: Deploy
         working-directory: back-end/
-        run: railway up --detach --service sgcm
+        run: railway up --detach --service sgcm-vyctor922-2
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
